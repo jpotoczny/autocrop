@@ -52,29 +52,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 + ' object-position: top -' + cropTop + 'px left -' + cropLeft + 'px;');
     }
 
-    function getPixel(x, y) {
-        return {
-            r: imageData.data[(imageData.width * y + x) * 4],
-            g: imageData.data[(imageData.width * y + x) * 4 + 1],
-            b: imageData.data[(imageData.width * y + x) * 4 + 2],
-            a: imageData.data[(imageData.width * y + x) * 4 + 3]
-        };
-    }
 
-    function isBorder(p) {
-        return p.r + p.g + p.b > 760 || p.a === 0;
+    function isBorder(x, y) {
+        var offset = (imageData.width * y + x) * 4;
+        return imageData.data[offset] + imageData.data[offset + 1] + imageData.data[offset + 2] > 760 || p.a === 0;
     }
 
     function isEmptyRow(y) {
         for (x = 0; x < imageData.width; x++)
-            if (!isBorder(getPixel(x, y)))
+            if (!isBorder(x, y))
                 return false;
         return true;
     }
 
     function isEmptyCol(x) {
         for (y = 0; y < imageData.height; y++)
-            if (!isBorder(getPixel(x, y)))
+            if (!isBorder(x, y))
                 return false;
         return true;
     }
